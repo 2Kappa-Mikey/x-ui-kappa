@@ -9,7 +9,7 @@ echo;msg_inf '           ___    _   _   _  '	;
 msg_inf		 ' \/ __ | |  | __ |_) |_) / \ '	;
 msg_inf		 ' /\    |_| _|_   |   | \ \_/ '	; echo
 ##################################Variables#############################################################
-XUIDB="/etc/x-ui/x-ui.db";domain="";UNINSTALL="x";INSTALL="n";PNLNUM=1;CFALLOW="n";CLASH=0;CUSTOMWEBSUB=0
+XUIDB="/etc/x-ui/x-ui.db";domain="";UNINSTALL="x";INSTALL="n";PNLNUM=1;CFALLOW="n";CLASH=0;CUSTOMWEBSUB=0;DEFAULT_FAKE="n"
 Pak=$(type apt &>/dev/null && echo "apt" || echo "yum")
 systemctl stop x-ui
 rm -rf /etc/systemd/system/x-ui.service
@@ -84,6 +84,15 @@ while [ "$#" -gt 0 ]; do
     -websub) CUSTOMWEBSUB="$2"; shift 2;;
     -clash) CLASH="$2"; shift 2;;
     -uninstall) UNINSTALL="$2"; shift 2;;
+    -default)
+      if [[ "$2" =~ ^(yes|no|1|0|true|false)$ ]]; then
+        DEFAULT_FAKE="$2"
+        shift 2
+      else
+        DEFAULT_FAKE="yes"
+        shift 1
+      fi
+      ;;
     *) shift 1;;
   esac
 done
@@ -1067,20 +1076,208 @@ su -c "/usr/bin/sub2sing-box server --bind 127.0.0.1 --port 8080 & disown" root
 
 ######################install_fake_site#################################################################
 
-FAKE_SITE_TMP=$(mktemp -d)
-if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-pro/archive/refs/heads/main.tar.gz" \
-	&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-pro-main/assets/fake-sites"; then
-	FAKE_SITES=("$FAKE_SITE_TMP"/site-*/)
-	FAKE_SITE="${FAKE_SITES[$((RANDOM % ${#FAKE_SITES[@]}))]}"
-	msg_inf "Random fake site template: $(basename "$FAKE_SITE")"
+if [[ ${DEFAULT_FAKE} == *"y"* || ${DEFAULT_FAKE} == "1" || ${DEFAULT_FAKE} == "true" ]]; then
+	msg_inf "Installing default fake site..."
 	mkdir -p /var/www/html
 	rm -rf /var/www/html/*
-	cp -a "$FAKE_SITE". /var/www/html/
-	msg_ok "Fake site installed successfully!"
+	cat > "/var/www/html/index.html" << 'EOF'
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Loading · page</title>
+    <style>
+        /* reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f0c1f 0%, #1a1a2e 40%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        /* container that centers all content */
+        .centered-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.2rem;
+            text-align: center;
+        }
+
+        /* ===== RAINBOW RING ===== */
+        .ring-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* the ring itself — uses conic gradient + mask 
+           to get exactly a "ring" (not a solid circle) */
+        .rainbow-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #ff004c, 
+                #ff7a00, 
+                #ffd000, 
+                #2ee65b, 
+                #00c2ff, 
+                #7a2bff, 
+                #ff00d4, 
+                #ff004c
+            );
+            
+            /* smooth rotation animation */
+            animation: spin 2.8s linear infinite;
+            
+            /* mask: transparent center and opaque ring */
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 18px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 18px));
+            
+            /* soft glow for beauty */
+            filter: drop-shadow(0 0 14px rgba(255, 190, 120, 0.5)) drop-shadow(0 0 30px rgba(120, 180, 255, 0.3));
+        }
+
+        /* extra inner highlight to make the ring look more refined */
+        .ring-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), transparent 70%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        /* rotate the main ring */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* soft pulsing highlight */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.55; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Loading... text */
+        .loading-text {
+            color: #f0ebe5;
+            font-size: 1.9rem;
+            font-weight: 450;
+            letter-spacing: 0.35rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 0%, #e0d6ff 55%, #c9b8ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 15px rgba(200, 180, 255, 0.4);
+            animation: soft-shift 4s ease-in-out infinite;
+        }
+
+        /* gentle shimmering text as a neat backlight */
+        @keyframes soft-shift {
+            0%, 100% { 
+                opacity: 0.95;
+                filter: drop-shadow(0 0 5px rgba(190, 180, 255, 0.3));
+            }
+            50% { 
+                opacity: 1;
+                filter: drop-shadow(0 0 15px rgba(210, 200, 255, 0.6));
+            }
+        }
+
+        /* small decorative dots (optional, for atmosphere) */
+        .dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: -0.5rem;
+        }
+        .dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ded3ff;
+            animation: dot-bounce 1.2s infinite ease-in-out;
+            opacity: 0.7;
+        }
+        .dots span:nth-child(2) { animation-delay: 0.15s; }
+        .dots span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes dot-bounce {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-12px); opacity: 1; }
+            60% { transform: translateY(0); opacity: 0.7; }
+        }
+
+        /* responsiveness for small screens */
+        @media (max-width: 480px) {
+            .ring-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+            .loading-text {
+                font-size: 1.5rem;
+                letter-spacing: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-box">
+        <!-- RAINBOW RING (pure HTML/CSS, no JS) -->
+        <div class="ring-wrapper">
+            <div class="rainbow-ring"></div>
+        </div>
+
+        <!-- Loading... label -->
+        <div class="loading-text">Loading...</div>
+
+        <!-- Optional animated dots (decorative) -->
+        <div class="dots" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</body>
+</html>
+EOF
+	msg_ok "Default fake site installed successfully!"
 else
-	msg_err "Failed to download fake site templates!"
+	FAKE_SITE_TMP=$(mktemp -d)
+	if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-pro/archive/refs/heads/main.tar.gz" \
+		&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-pro-main/assets/fake-sites"; then
+		FAKE_SITES=("$FAKE_SITE_TMP"/site-*/)
+		FAKE_SITE="${FAKE_SITES[$((RANDOM % ${#FAKE_SITES[@]}))]}"
+		msg_inf "Random fake site template: $(basename "$FAKE_SITE")"
+		mkdir -p /var/www/html
+		rm -rf /var/www/html/*
+		cp -a "$FAKE_SITE". /var/www/html/
+		msg_ok "Fake site installed successfully!"
+	else
+		msg_err "Failed to download fake site templates!"
+	fi
+	rm -rf "$FAKE_SITE_TMP"
 fi
-rm -rf "$FAKE_SITE_TMP"
 
 ######################install_web_sub_page##############################################################
 
