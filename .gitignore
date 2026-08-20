@@ -1,0 +1,4 @@
+# local-only / agent notes - never commit local paths or credentials
+*LOCAL*
+*.local
+*local-only*
