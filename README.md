@@ -18,7 +18,7 @@
   1. Для панели и WebSocket/GRPC/HttpUgrade/SplitHttp
   2. Для REALITY-назначения
   >
-  Бесплатные поддомены - https://scarce-hole-1e2.notion.site/14d1666462e48069818cf42553bfae1f?pvs=74
+  Бесплатные поддомены - лучше не брать. Купите лучше за 100-200 рублей где нить домен (например на https://sweb.ru/) и не парьтесь. 
   >
   Инструкция на русском - https://scarce-hole-1e2.notion.site/3X-UI-pro-with-REALITY-panel-and-inbaunds-on-port-443-10d1666462e48085be0fee4c136ce417
 
