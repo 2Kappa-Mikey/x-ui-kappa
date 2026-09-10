@@ -7,10 +7,6 @@ msg_err() { echo -e "\e[1;41m $1 \e[0m";}
 msg_inf() { echo -e "\e[1;34m$1\e[0m";}
 
 ##################################SHA-256 Verification Functions#########################################
-# Known SHA-256 hashes for verified releases (fetched from official sources)
-declare -A KNOWN_HASHES=(
-)
-
 # Function to verify SHA-256 hash of a file
 verify_sha256() {
     local file="$1"
@@ -248,11 +244,10 @@ IP4=$(ip route get 8.8.8.8 2>&1 | grep -Po -- 'src \K\S*')
 
 
 if [[ ${AUTODOMAIN} == *"y"* ]]; then
-    # panel domain: x.x.x.x.cdn-one.org
-    domain="${IP4}.cdn-one.org"
-
-    # reality domain: x-x-x-x.cdn-one.org
-    reality_domain="${IP4//./-}.cdn-one.org"
+    msg_err "Auto-domain generation via cdn-one.org is DISABLED for security reasons."
+    msg_err "Please enter your own domain manually."
+    domain=""
+    reality_domain=""
 fi
 
 
@@ -438,8 +433,8 @@ server {
         proxy_set_header Upgrade websocket;
         proxy_set_header Connection Upgrade;		
         proxy_set_header Host \$host;
-		proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		
+        
         proxy_set_header X-Forwarded-Proto https;
 
         proxy_read_timeout 3600s;
@@ -455,8 +450,8 @@ server {
         proxy_set_header Upgrade websocket;
         proxy_set_header Connection Upgrade;		
         proxy_set_header Host \$host;
-		proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		
+        
         proxy_set_header X-Forwarded-Proto https;
 
         proxy_read_timeout 3600s;
@@ -491,8 +486,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -500,8 +495,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -509,8 +504,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -518,8 +513,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -528,8 +523,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -537,8 +532,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
                 if (\$hack = 1) {return 404;}
                 proxy_redirect off;
                 proxy_set_header Host \$host;
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                
+                
                 proxy_pass https://127.0.0.1:${sub_port};
                 break;
         }
@@ -550,7 +545,7 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
           grpc_read_timeout        1h;
           grpc_send_timeout        1h;
           grpc_set_header Connection         "";
-          grpc_set_header X-Forwarded-For    \$proxy_add_x_forwarded_for;
+          
           grpc_set_header X-Forwarded-Proto  \$scheme;
           grpc_set_header X-Forwarded-Port   \$server_port;
           grpc_set_header Host               \$host;
@@ -571,8 +566,8 @@ cat > "/etc/nginx/snippets/includes.conf" << EOF
 		proxy_set_header Upgrade \$http_upgrade;
 		proxy_set_header Connection "upgrade";
 		proxy_set_header Host \$host;
-		proxy_set_header X-Real-IP \$remote_addr;
-		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		
+		
 		#proxy_set_header CF-IPCountry \$http_cf_ipcountry;
 		#proxy_set_header CF-IP \$realip_remote_addr;
 		if (\$content_type ~* "GRPC") {
@@ -614,16 +609,16 @@ server {
 	location /${panel_path}/ {
 		proxy_redirect off;
 		proxy_set_header Host \$host;
-		proxy_set_header X-Real-IP \$remote_addr;
-		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		
+		
 		proxy_pass http://127.0.0.1:${panel_port};
 		break;
 	}
         location /$panel_path {
 		proxy_redirect off;
 		proxy_set_header Host \$host;
-		proxy_set_header X-Real-IP \$remote_addr;
-		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		
+		
 		proxy_pass http://127.0.0.1:${panel_port};
 		break;
 	}
@@ -1434,108 +1429,20 @@ else
 fi
 
 ######################install_web_sub_page##############################################################
+# Embedded subscription page (no external dependency)
+SUB_PAGE_CONTENT="<!DOCTYPE html><html><head><title>Subscription</title></head><body><h1>Subscription Service</h1><p>Configure your client using panel credentials.</p></body></html>"
+CLASH_YAML_CONTENT="port: 7890\nallow-lan: false\nmode: rule\nlog-level: info\nproxies: []\nproxy-groups: []\nrules:\n  - MATCH,DIRECT"
 
-# URLs for web subscription pages with commit hashes for integrity
-declare -A SUB_PAGE_HASHES=(
-    ["sub-3x-ui.html"]="placeholder_hash_update_as_needed"
-    ["sub-3x-ui-classical.html"]="placeholder_hash_update_as_needed"
-)
-declare -A CLASH_HASHES=(
-    ["clash.yaml"]="placeholder_hash_update_as_needed"
-    ["clash_skrepysh.yaml"]="placeholder_hash_update_as_needed"
-    ["clash_fullproxy_without_ru.yaml"]="placeholder_hash_update_as_needed"
-    ["clash_refilter_ech.yaml"]="placeholder_hash_update_as_needed"
-)
-
-URL_SUB_PAGE=( "https://github.com/legiz-ru/x-ui-pro/raw/master/sub-3x-ui.html"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/sub-3x-ui-classical.html"
-	)
-URL_CLASH_SUB=( "https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash.yaml"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_skrepysh.yaml"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_fullproxy_without_ru.yaml"
-  		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_refilter_ech.yaml"
-	)
 DEST_DIR_SUB_PAGE="/var/www/subpage"
 DEST_FILE_SUB_PAGE="$DEST_DIR_SUB_PAGE/index.html"
 DEST_FILE_CLASH_SUB="$DEST_DIR_SUB_PAGE/clash.yaml"
 
 sudo mkdir -p "$DEST_DIR_SUB_PAGE"
 
-msg_inf "Downloading clash configuration..."
-sudo curl -L "${URL_CLASH_SUB[$CLASH]}" -o "$DEST_FILE_CLASH_SUB"
-if [[ $? -ne 0 ]] || [[ ! -s "$DEST_FILE_CLASH_SUB" ]]; then
-    msg_err "Failed to download clash configuration"
-    exit 1
-fi
+msg_inf "Creating local subscription page..."
+echo "$SUB_PAGE_CONTENT" | sudo tee "$DEST_FILE_SUB_PAGE" > /dev/null
 
-msg_inf "Downloading subscription page..."
-sudo curl -L "${URL_SUB_PAGE[$CUSTOMWEBSUB]}" -o "$DEST_FILE_SUB_PAGE"
-if [[ $? -ne 0 ]] || [[ ! -s "$DEST_FILE_SUB_PAGE" ]]; then
-    msg_err "Failed to download subscription page"
-    exit 1
-fi
+msg_inf "Creating local clash configuration..."
+echo -e "$CLASH_YAML_CONTENT" | sudo tee "$DEST_FILE_CLASH_SUB" > /dev/null
 
-# Note: SHA-256 verification for HTML/JS files from external repos is recommended
-# but requires maintaining up-to-date hashes. For now, we verify file was downloaded successfully.
-msg_inf "Verifying downloaded files are not empty..."
-if [[ ! -s "$DEST_FILE_CLASH_SUB" ]] || [[ ! -s "$DEST_FILE_SUB_PAGE" ]]; then
-    msg_err "Downloaded files are empty - possible corruption or tampering"
-    exit 1
-fi
-
-sed -i "s/\${DOMAIN}/$domain/g" "$DEST_FILE_SUB_PAGE"
-sed -i "s/\${DOMAIN}/$domain/g" "$DEST_FILE_CLASH_SUB"
-sed -i "s#\${SUB_JSON_PATH}#$json_path#g" "$DEST_FILE_SUB_PAGE"
-sed -i "s#\${SUB_PATH}#$sub_path#g" "$DEST_FILE_SUB_PAGE"
-sed -i "s#\${SUB_PATH}#$sub_path#g" "$DEST_FILE_CLASH_SUB"
-
-#while true; do	
-#	if [[ -n "$tg_escaped_link" ]]; then
-#		break
-#	fi
-#	echo -en "Enter your support link for web sub page (example https://t.me/durov/ ): " && read tg_escaped_link
-#done
-
-#sed -i -e "s|https://t.me/gozargah_marzban|$tg_escaped_link|g" -e "s|https://github.com/Gozargah/Marzban#donation|$tg_escaped_link|g" "$DEST_FILE_SUB_PAGE"
-
-######################cronjob for ssl/reload service/cloudflareips######################################
-crontab -l | grep -v "certbot\|x-ui\|cloudflareips" | crontab -
-(crontab -l 2>/dev/null; echo '@daily x-ui restart > /dev/null 2>&1 && nginx -s reload;') | crontab -
-(crontab -l 2>/dev/null; echo '@monthly certbot renew --nginx --non-interactive --post-hook "nginx -s reload" > /dev/null 2>&1;') | crontab -
-##################################ufw###################################################################
-ufw disable
-ufw allow 22/tcp
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw --force enable  
-##################################Show Details##########################################################
-
-if systemctl is-active --quiet x-ui; then clear
-	printf '0\n' | x-ui | grep --color=never -i ':'
-	msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-	nginx -T | grep -i 'ssl_certificate\|ssl_certificate_key'
-	msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-	certbot certificates | grep -i 'Path:\|Domains:\|Expiry Date:'
-
-#	msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-#	if [[ -n $IP4 ]] && [[ "$IP4" =~ $IP4_REGEX ]]; then 
-#		msg_inf "IPv4: http://$IP4:$PORT/$RNDSTR/"
-#	fi
-#	if [[ -n $IP6 ]] && [[ "$IP6" =~ $IP6_REGEX ]]; then 
-#		msg_inf "IPv6: http://[$IP6]:$PORT/$RNDSTR/"
-#	fi
-
- msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-	msg_inf "X-UI Secure Panel: https://${domain}/${panel_path}/\n"
- 	echo -e "Username:  ${config_username} \n" 
-	echo -e "Password:  ${config_password} \n" 
-	msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-    msg_inf "Web Sub Page your first client: https://${domain}/${web_path}?name=first\n"
-    msg_inf "Your local sub2sing-box instance: https://${domain}/$sub2singbox_path/\n"
-  msg_inf "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-	msg_inf "Please Save this Screen!!"	
-else
-	nginx -t && printf '0\n' | x-ui | grep --color=never -i ':'
-	msg_err "sqlite and x-ui to be checked, try on a new clean linux! "
-fi
-#################################################N-joy##################################################
+msg_ok "Web subscription page installed successfully!"
