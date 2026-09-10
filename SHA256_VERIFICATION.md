@@ -1,13 +1,13 @@
 # SHA-256 Verification Implementation Guide
 
 ## Overview
-This document describes the SHA-256 integrity verification system implemented in `x-ui-pro.sh` to address supply-chain security vulnerabilities.
+This document describes the SHA-256 integrity verification system implemented in `x-ui-kappa.sh` to address supply-chain security vulnerabilities.
 
 ## Implemented Features
 
 ### 1. Core Verification Functions
 
-Located at the beginning of `x-ui-pro.sh` (lines 9-91):
+Located at the beginning of `x-ui-kappa.sh` (lines 9-91):
 
 - **`verify_sha256(file, expected_hash)`**: Verifies a file against a known SHA-256 hash
 - **`fetch_github_checksums(repo, tag)`**: Fetches checksums.txt from GitHub releases
@@ -50,7 +50,7 @@ curl -sL "https://github.com/legiz-ru/sub2sing-box/releases/download/vX.Y.Z/sub2
 sha256sum /tmp/test.tar.gz
 ```
 
-3. Update the `KNOWN_HASHES` array in `x-ui-pro.sh` (line 12):
+3. Update the `KNOWN_HASHES` array in `x-ui-kappa.sh` (line 12):
 ```bash
 declare -A KNOWN_HASHES=(
     ["sub2sing-box_X.Y.Z_linux_amd64.tar.gz"]="NEW_HASH_HERE"
@@ -80,7 +80,7 @@ To add SHA-256 verification for web assets:
 
 1. Download each file:
 ```bash
-curl -sL "https://github.com/legiz-ru/x-ui-pro/raw/master/sub-3x-ui.html" -o /tmp/sub.html
+curl -sL "https://github.com/legiz-ru/x-ui-kappa/raw/master/sub-3x-ui.html" -o /tmp/sub.html
 ```
 
 2. Calculate hash:

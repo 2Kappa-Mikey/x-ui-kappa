@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Repo: `2Kappa-Mikey/x-ui-kappa` (fork of `mozaroc/x-ui-pro`, which is a fork of `GFW4Fun/x-ui-pro`). Bash installer scripts for **3x-ui + nginx** exposing all VPN inbounds through a single port **443** via SNI routing. Not a codebase — no source tree, build system, or test suite. Linux-only (Debian 12/Ubuntu 24). README is in Russian.
+Repo: `2Kappa-Mikey/x-ui-kappa` (fork of `mozaroc/x-ui-kappa`, which is a fork of `GFW4Fun/x-ui-kappa`). Bash installer scripts for **3x-ui + nginx** exposing all VPN inbounds through a single port **443** via SNI routing. Not a codebase — no source tree, build system, or test suite. Linux-only (Debian 12/Ubuntu 24). README is in Russian.
 
 ## Layout & purpose
 
-- `x-ui-pro.sh` — main installer (flags: `-install yes -panel 1 -subdomain <dom> -reality_domain <dom> -ONLY_CF_IP_ALLOW <y|n> -websub 0|1 -clash 0..3 -uninstall yes`). Downloads the **latest** 3x-ui release (tag fetched from GitHub API, used in the download URL). This was the v2.9.4-pin bug fixed in this fork.
+- `x-ui-kappa.sh` — main installer (flags: `-install yes -panel 1 -subdomain <dom> -reality_domain <dom> -ONLY_CF_IP_ALLOW <y|n> -websub 0|1 -clash 0..3 -uninstall yes`). Downloads the **latest** 3x-ui release (tag fetched from GitHub API, used in the download URL). This was the v2.9.4-pin bug fixed in this fork.
 - `x-ui-latest.sh` — near-identical installer (small diff) that also fetches the **latest** 3x-ui release tag.
 - `backup.sh` — interactive backup/restore of panel + nginx configs (asks for path, menu-driven).
 - `randomfakehtml.sh` — installs a random fake HTML site into `/var/www/html/` (from `GFW4Fun/randomfakehtml`).
@@ -40,8 +40,8 @@ Clients only ever see port 443; everything else is internal:
 - Remote origin: `https://github.com/2Kappa-Mikey/x-ui-kappa.git` (currently private).
 - README install/uninstall/backup commands point to this fork (`2Kappa-Mikey/x-ui-kappa`) — they will 404 until the repo is made public.
 - Deliberately NOT repointed to the fork (separate upstream repos, leave alone):
-  - `mozaroc/3x-ui-pro` → fake-site templates (`x-ui-pro.sh`, `x-ui-latest.sh`).
-  - `legiz-ru/x-ui-pro` → sub-page HTML + clash configs (`x-ui-pro.sh`, `x-ui-latest.sh`).
+  - `mozaroc/3x-ui-kappa` → fake-site templates (`x-ui-kappa.sh`, `x-ui-latest.sh`).
+  - `legiz-ru/x-ui-kappa` → sub-page HTML + clash configs (`x-ui-kappa.sh`, `x-ui-latest.sh`).
 - Git is at `C:\Program Files\Git\cmd\git.exe` (add to PATH; not on default PATH). No WSL distro installed, so **`bash -n` cannot run locally** — verify bash edits by visual comparison against the matching lines in `x-ui-latest.sh`.
 - git config already set locally (`Kappa Mikey` / `2firewalker@gmail.com`); commit only when asked.
 

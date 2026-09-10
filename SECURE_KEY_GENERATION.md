@@ -147,7 +147,7 @@ Clamping check (last byte): PASSED ✓
 
 ### Тест 3: Проверка синтаксиса
 ```bash
-bash -n x-ui-pro.sh  # Успешно, ошибок нет
+bash -n x-ui-kappa.sh  # Успешно, ошибок нет
 ```
 
 ## Критерии приёмки
