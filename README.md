@@ -1,6 +1,6 @@
 # x-ui-kappa (x-ui + nginx)
 
-> Модификация [GFW4Fun/x-ui-kappa](https://github.com/GFW4Fun/x-ui-kappa) для **REALITY**
+> Модификация [mozaroc/x-ui-pro, which is a fork of GFW4Fun/x-ui-pro) для **REALITY**
 
 [![Platform](https://img.shields.io/badge/platform-Linux%20Debian%2012%20%7C%20Ubuntu%2024-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
@@ -31,7 +31,6 @@
 - ⚙️ **Автоматическая настройка** VLESS+Reality и VLESS over WebSocket
 - 🎨 **Пользовательская веб-страница подписки**
 - 🛠️ Возможность использования **пользовательских конфигураций клиентов для SING-BOX и CLASH META**
-- 🔄 **Локальный экземпляр sub2sing-box**
 - 🔒 **Автоматическая настройка файрвола**
 - 🛡️ **Больше безопасности и меньше детектирования** благодаря nginx
 - ☁️ **Совместимость с Cloudflare** (только для WebSocket/GRPC)
@@ -64,10 +63,6 @@ bash <(wget -qO- https://github.com/2Kappa-Mikey/x-ui-kappa/raw/master/x-ui-kapp
 ```
 
 > ⚠️ **Не меняйте SubDomain при продлении SSL!**
-
-📖 **Инструкция на русском:** [Notion Guide](https://scarce-hole-1e2.notion.site/3X-UI-pro-with-REALITY-panel-and-inbaunds-on-port-443-10d1666462e48085be0fee4c136ce417)
-
----
 
 ## 📦 Установка
 
@@ -142,14 +137,6 @@ systemctl start x-ui
 ### Главная страница пользовательской веб-подписки
 
 ![Главная страница пользовательской веб-подписки](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/CustomWebSub.png?raw=true)
-
-### Секция sub2sing-box на странице пользовательской веб-подписки
-
-![Секция sub2sing-box](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/CustomWebSubSingBox.png?raw=true)
-
-### Локальный экземпляр sub2sing-box (форк legiz)
-
-![Локальный экземпляр sub2sing-box](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/sub2sing.png?raw=true)
 
 ---
 
@@ -240,8 +227,8 @@ cd x-ui-kappa
 
 ## 🔗 Полезные ссылки
 
-- **Оригинальный проект:** [GFW4Fun/x-ui-kappa](https://github.com/GFW4Fun/x-ui-kappa)
-- **Форк:** [2Kappa-Mikey/x-ui-kappa](https://github.com/2Kappa-Mikey/x-ui-kappa)
+- **Оригинальный проект:** [GFW4Fun/x-ui-pro](https://github.com/GFW4Fun/x-ui-pro)
+- **Форк:** [mozaroc/x-ui-pro](https://github.com/mozaroc/x-ui-pro)
 - **Инструкция на русском:** [Notion Guide](https://scarce-hole-1e2.notion.site/3X-UI-pro-with-REALITY-panel-and-inbaunds-on-port-443-10d1666462e48085be0fee4c136ce417)
 - **Купить домен:** [sweb.ru](https://sweb.ru/)
 
