@@ -1,5 +1,5 @@
 #!/bin/bash
-#################### x-ui-pro v2.4.3 @ github.com/GFW4Fun ##############################################
+#################### x-ui-kappa v2.4.3 @ github.com/GFW4Fun ##############################################
 [[ $EUID -ne 0 ]] && echo "not root!" && sudo su -
 ##############################INFO######################################################################
 msg_ok() { echo -e "\e[1;42m $1 \e[0m";}
@@ -1004,8 +1004,8 @@ su -c "/usr/bin/sub2sing-box server --bind 127.0.0.1 --port 8080 & disown" root
 ######################install_fake_site#################################################################
 
 FAKE_SITE_TMP=$(mktemp -d)
-if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-pro/archive/refs/heads/main.tar.gz" \
-	&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-pro-main/assets/fake-sites"; then
+if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-kappa/archive/refs/heads/main.tar.gz" \
+	&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-kappa-main/assets/fake-sites"; then
 	FAKE_SITES=("$FAKE_SITE_TMP"/site-*/)
 	FAKE_SITE="${FAKE_SITES[$((RANDOM % ${#FAKE_SITES[@]}))]}"
 	msg_inf "Random fake site template: $(basename "$FAKE_SITE")"
@@ -1020,13 +1020,13 @@ rm -rf "$FAKE_SITE_TMP"
 
 ######################install_web_sub_page##############################################################
 
-URL_SUB_PAGE=( "https://github.com/legiz-ru/x-ui-pro/raw/master/sub-3x-ui.html"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/sub-3x-ui-classical.html"
+URL_SUB_PAGE=( "https://github.com/legiz-ru/x-ui-kappa/raw/master/sub-3x-ui.html"
+		"https://github.com/legiz-ru/x-ui-kappa/raw/master/sub-3x-ui-classical.html"
 	)
-URL_CLASH_SUB=( "https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash.yaml"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_skrepysh.yaml"
-		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_fullproxy_without_ru.yaml"
-  		"https://github.com/legiz-ru/x-ui-pro/raw/master/clash/clash_refilter_ech.yaml"
+URL_CLASH_SUB=( "https://github.com/legiz-ru/x-ui-kappa/raw/master/clash/clash.yaml"
+		"https://github.com/legiz-ru/x-ui-kappa/raw/master/clash/clash_skrepysh.yaml"
+		"https://github.com/legiz-ru/x-ui-kappa/raw/master/clash/clash_fullproxy_without_ru.yaml"
+  		"https://github.com/legiz-ru/x-ui-kappa/raw/master/clash/clash_refilter_ech.yaml"
 	)
 DEST_DIR_SUB_PAGE="/var/www/subpage"
 DEST_FILE_SUB_PAGE="$DEST_DIR_SUB_PAGE/index.html"

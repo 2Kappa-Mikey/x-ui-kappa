@@ -1,5 +1,5 @@
 #!/bin/bash
-#################### x-ui-pro v2.4.3 @ github.com/GFW4Fun ##############################################
+#################### x-ui-kappa v2.4.3 @ github.com/GFW4Fun ##############################################
 [[ $EUID -ne 0 ]] && echo "not root!" && sudo su -
 ##############################INFO######################################################################
 msg_ok() { echo -e "\e[1;42m $1 \e[0m";}
@@ -1397,8 +1397,8 @@ EOF
 else
 	FAKE_SITE_TMP=$(mktemp -d)
 	msg_inf "Downloading fake site templates..."
-	if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-pro/archive/refs/heads/main.tar.gz" \
-		&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-pro-main/assets/fake-sites"; then
+	if wget -qO "$FAKE_SITE_TMP/repo.tar.gz" "https://github.com/mozaroc/3x-ui-kappa/archive/refs/heads/main.tar.gz" \
+		&& tar -xzf "$FAKE_SITE_TMP/repo.tar.gz" -C "$FAKE_SITE_TMP" --strip-components=3 "3x-ui-kappa-main/assets/fake-sites"; then
 		
 		# Verify downloaded archive is not empty/corrupted
 		if [[ ! -s "$FAKE_SITE_TMP/repo.tar.gz" ]]; then

@@ -1,4 +1,4 @@
-## x-ui-pro (x-ui + nginx) — модификация https://github.com/GFW4Fun/x-ui-pro для REALITY
+## x-ui-kappa (x-ui + nginx) — модификация https://github.com/GFW4Fun/x-ui-kappa для REALITY
 - Автоматическая установка (легковесная)
 - Автоматическое продление SSL / Ежедневный перезапуск Nginx и X-ui
 - Работа **REALITY** и **WebSocket** через **nginx**.
@@ -27,7 +27,7 @@
 ### Установка X-UI-PRO
 
 ```
-bash <(wget -qO- https://github.com/2Kappa-Mikey/x-ui-kappa/raw/master/x-ui-pro.sh) -install yes -panel 1 -ONLY_CF_IP_ALLOW no
+bash <(wget -qO- https://github.com/2Kappa-Mikey/x-ui-kappa/raw/master/x-ui-kappa.sh) -install yes -panel 1 -ONLY_CF_IP_ALLOW no
 ```
 > 
 > Не меняйте SubDomain при продлении SSL❗
@@ -35,7 +35,7 @@ bash <(wget -qO- https://github.com/2Kappa-Mikey/x-ui-kappa/raw/master/x-ui-pro.
 
 **Удаление X-UI-PRO**:x:
 ```
-sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/2Kappa-Mikey/x-ui-kappa/master/x-ui-pro.sh) -Uninstall yes"
+sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/2Kappa-Mikey/x-ui-kappa/master/x-ui-kappa.sh) -Uninstall yes"
 ```
 
 **Резервное копирование панели и конфигов nginx**:x:
@@ -48,16 +48,16 @@ sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/2Kappa-Mikey/x-ui
 >
 **Как открыть пользовательскую веб-страницу подписки?**
 >
-![](https://github.com/legiz-ru/x-ui-pro/blob/master/media/CustomWebSubHow2Open.png?raw=true)
+![](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/CustomWebSubHow2Open.png?raw=true)
 >
 **Главная страница пользовательской веб-подписки**
 >
-![](https://github.com/legiz-ru/x-ui-pro/blob/master/media/CustomWebSub.png?raw=true)
+![](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/CustomWebSub.png?raw=true)
 >
 **Секция sub2sing-box на странице пользовательской веб-подписки**
 >
-![](https://github.com/legiz-ru/x-ui-pro/blob/master/media/CustomWebSubSingBox.png?raw=true)
+![](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/CustomWebSubSingBox.png?raw=true)
 >
 **Локальный экземпляр sub2sing-box (форк legiz)**
 >
-![](https://github.com/legiz-ru/x-ui-pro/blob/master/media/sub2sing.png?raw=true)
+![](https://github.com/legiz-ru/x-ui-kappa/blob/master/media/sub2sing.png?raw=true)
